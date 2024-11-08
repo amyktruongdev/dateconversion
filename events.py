@@ -14,13 +14,16 @@ page_source = driver.page_source
 
 soup = BeautifulSoup(page_source, 'html.parser')
 
+event_tag = soup.find_all('h3', class_="tribe-events-calendar-list__event-title tribe-common-h6 tribe-common-h4--min-medium")
 span_tags = soup.find_all('span', class_='tribe-event-date-start')
 end_time_tags = soup.find_all('span', class_='tribe-event-time')
 
+
 data = []
 
-for start, end in zip(span_tags, end_time_tags):
+for event, start, end in zip(event_tag,span_tags, end_time_tags):
     item = {}
+    item['Event'] = event.text.strip()
     item['Start Date'] = start.text.strip() 
     item['End Time'] = end.text.strip()       
     data.append(item)
